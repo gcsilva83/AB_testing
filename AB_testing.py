@@ -55,7 +55,8 @@ def num_subjects(alpha, power_level, p, delta):
 exp_name = st.sidebar.text_input("Enter experiment name:")
 h0 = st.sidebar.text_input("Enter null hypothesis:")
 h1 = st.sidebar.text_input("Enter alternative hypothesis:")
-percent_change = st.sidebar.number_input("Enter expected percent change (%):")
+#percent_change = st.sidebar.number_input("Enter expected percent change (%):")
+percent_change = st.sidebar.slider("Enter expected percent change (%):", min_value=0.01, max_value=0.5, value=0.1, step=0.01)
 
 # Input form for alpha and beta values
 p_c = st.sidebar.slider("Select the Baseline Conversion Rate:", min_value=0.01, max_value=0.5, value=0.1, step=0.01)
@@ -74,39 +75,50 @@ n = ((z_alpha + z_beta) ** 2 * (p0 * (1 - p0) + p1 * (1 - p1))) / effect_size **
 
 # n_1= num_subjects(alpha,1- beta, p_c, percent_change)
 pc = percent_change/100
+n= num_subjects(alpha,1-beta,p_c,pc)
+v5 = int(np.ceil(n))
+v5 = "{:,.0f}".format(v5)
 
-n_1= num_subjects(0.05,0.8, 0.1, 0.02)
-n_2= num_subjects(alpha,1-beta,p_c,pc)
-
-st.write(f"**v1:** {alpha}")
-st.write(f"**v2:** {1-beta}")
-st.write(f"**v4:** {p_c:.2f}")
-st.write(f"**v3:** {pc}") 
-
-st.write(f"**v5:** {int(np.ceil(n_1))}")
-b = st.write(f"**v5:** {int(np.ceil(n_2))}")
-
-n_2 = 3.7
-v5 = int(np.ceil(n_2))
-
-st.metric(label="n_2", value=n_2)
+st.metric(label="## Sample Size for this Experiment is:",
+          value=v5,delta="samples",label_visibility="collapsed") 
 
 # Calculate confidence levels
 power = 1 - beta
 cl_alpha = 1 - alpha
 cl_beta = 1 - power
 
+#######
+
+# Define the variables
+max_width = 1400
+padding_top = 0.8
+padding_right = 0.8
+padding_left = 0.8
+padding_bottom = 0.8
+COLOR = "#333333"
+BACKGROUND_COLOR = "#F0F2F6"
+
+# Use the variables in the st.markdown code snippet
+st.markdown(
+    f"""
+    <style>
+        .reportview-container .main .block-container {{
+            max-width: {max_width}px;
+            padding-top: {padding_top}rem;
+            padding-right: {padding_right}rem;
+            padding-left: {padding_left}rem;
+            padding-bottom: {padding_bottom}rem;
+        }}
+        .reportview-container .main {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 # Display results
-st.write(f"**Experiment name:** {exp_name}")
-st.write(f"**Null hypothesis:** {h0}")
-st.write(f"**Alternative hypothesis:** {h1}")
-st.write(f"**Expected percent change:** {percent_change:.2f}%")
-st.write(f"**Alpha value:** {alpha}")
-st.write(f"**Beta value:** {beta}")
-st.write(f"**Sample size:** {int(np.ceil(n))}")
-st.write(f"**Power:** {power:.2f}")
-st.write(f"**Confidence level (alpha):** {cl_alpha:.2f}")
-st.write(f"**Confidence level (beta):** {cl_beta:.2f}")
+
 st.write("## Interpretation")
 st.write("The **null hypothesis** states that there is no statistically significant difference between the control group and the experimental group. The **alternative hypothesis** states that there is a statistically significant difference between the two groups.")
 st.write(f"The **expected percent change** is the anticipated difference between the two groups, expressed as a percentage.")
@@ -119,5 +131,7 @@ st.write(f"**Alternative hypothesis:** {h1}")
 st.write(f"**Expected percent change:** {percent_change}%")
 st.write(f"**Alpha value:** {alpha}")
 st.write(f"**Beta value:** {beta}")
-st.write(f"**Sample size:** {int(np.ceil(n))}")
-st.write(f"**Sample size:** {int(np.ceil(n_1))}")
+
+st.write("##  Sample Size for this Experiment is:")
+st.metric(label="## Sample Size for this Experiment is:",
+          value=v5,delta="samples",label_visibility="collapsed") 
