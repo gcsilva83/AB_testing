@@ -79,9 +79,6 @@ n= num_subjects(alpha,1-beta,p_c,pc)
 v5 = int(np.ceil(n))
 v5 = "{:,.0f}".format(v5)
 
-st.metric(label="## Sample Size for this Experiment is:",
-          value=v5,delta="samples",label_visibility="collapsed") 
-
 # Calculate confidence levels
 power = 1 - beta
 cl_alpha = 1 - alpha
