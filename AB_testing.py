@@ -55,11 +55,12 @@ def num_subjects(alpha, power_level, p, delta):
 exp_name = st.sidebar.text_input("Enter experiment name:")
 h0 = st.sidebar.text_input("Enter null hypothesis:")
 h1 = st.sidebar.text_input("Enter alternative hypothesis:")
-#percent_change = st.sidebar.number_input("Enter expected percent change (%):")
-percent_change = st.sidebar.slider("Enter expected percent change (%):",  min_value=1, max_value=10, value=1, step=0.5)
+
 
 # Input form for alpha and beta values
 p_c = st.sidebar.slider("Select the Baseline Conversion Rate:", min_value=0.01, max_value=0.5, value=0.1, step=0.01)
+#percent_change = st.sidebar.number_input("Enter expected percent change (%):")
+percent_change = st.sidebar.slider("Enter expected percent change (%):", min_value=1.0, max_value=20.0, value=1.0, step=0.5)
 alpha = st.sidebar.slider("Select alpha value:", min_value=0.01, max_value=0.5, value=0.05, step=0.01)
 beta = st.sidebar.slider("Select beta value:", min_value=0.01, max_value=0.5, value=0.2, step=0.01)
 
